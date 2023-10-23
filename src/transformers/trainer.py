@@ -1913,7 +1913,11 @@ class Trainer:
 
         # add remaining tr_loss
         self._total_loss_scalar += tr_loss.item()
-        train_loss = self._total_loss_scalar / self.state.global_step
+        if self.state.global_step != 0:
+            train_loss = self._total_loss_scalar / self.state.global_step
+        else:
+            print('self.state.global_step is zero')
+            train_loss = self._total_loss_scalar
 
         metrics = speed_metrics(
             "train",
